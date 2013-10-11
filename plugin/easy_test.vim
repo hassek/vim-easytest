@@ -54,7 +54,7 @@ def run_test(level, on_terminal=False):
     names = [nn for nn in [cls_name, def_name] if nn]
 
     if names:
-      return file_name + ":" + ".".join(names)
+      return file_name + "\:" + ".".join(names)
     return file_name
 
   cb = vim.current.buffer
