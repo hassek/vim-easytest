@@ -10,7 +10,8 @@
 
 	let g:Easy_test_loaded = 1
 
-  let g:easytest_django_nose_syntax = 1
+  " Supported syntexes
+  let g:easytest_django_nose_syntax = 0
   let g:easytest_django_syntax = 0
 " }}}
 
