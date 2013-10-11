@@ -1,0 +1,75 @@
+*easy_test.txt*	For Vim version 7.4.	Last change: 2013 Oct 10
+
+==============================================================================
+CONTENTS                                                  *EasyTest_contents*
+
+    1. Introduction ....................... |EasyTest_introduction|
+    2. Usage .............................. |EasyTest_usage|
+    3. Requirements ....................... |EasyTest_requirements|
+    4. Support ............................ |EasyTest_support|
+    5. Configuration ...................... |EasyTest_configuration|
+    6. License ............................ |EasyTest_license|
+    7. Known issues ....................... |EasyTest_known_issues|
+    8. Contributing ....................... |EasyTest_contributing|
+
+==============================================================================
+1. Introduction                               *EasyTest* *EasyTest_introduction*
+
+EasyTest is a utility plugin which allows you to run unit tests easier
+avoiding the need to write the name of the specific test, class or file
+you want to run.
+
+==============================================================================
+2. Usage                                                      *EasyTest_usage*
+
+  TODO
+  let easytest_django_nose_syntax = 1
+  let easytest_django_syntax = 0
+
+
+==============================================================================
+3. Requirements                                        *EasyTest_requirements*
+ 
+  • EasyTest runs over the amazing plugin *dispatch* created by Tim Pope
+  • vim needs to be compiled with python
+  • the plugin has been developed and tested over Vim 7.4
+
+==============================================================================
+4. Support                                                  *EasyTest_support*
+
+  The idea is to extend this list for more languages so this becomes the
+  definitive plugin to run your tests in vim
+
+  • Python
+    ◦ Django (standalone)
+    ◦ django-nose
+
+
+==============================================================================
+5. Configuration                                      *EasyTest_configuration*
+
+TODO
+
+==============================================================================
+6. License                                                  *EasyTest_license*
+
+TODO
+
+==============================================================================
+7. Known issues                                        *EasyTest_known_issues*
+
+See the issue tracker at
+https://github.com/hassek/vim-easytest/issues
+
+==============================================================================
+8. Contributing                                        *EasyTest_contributing*
+
+If you experience any bugs or have feature requests, please open an issue on
+GitHub. Fork the source repository on GitHub and send a pull request if you
+have any code improvements.
+
+Author: Tomás Henríquez <tchenriquez@gmail.com>
+Source repository: https://github.com/hassek/vim-easytest 
+
+==============================================================================
+vim:tw=78:sw=4:ts=8:ft=help:norl:
