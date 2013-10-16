@@ -42,7 +42,7 @@ Currently there is no default mapping so everyone can just map it however they w
 
 ## Known Issues
 
-- Vim root needs to match the `./manage.py` for django/django-nose to run tests correctly
+- Vim needs to be opened where the `./manage.py` file exists for django/django-nose to run tests correctly
 
 ## Contributing
 As one can see, there're still many issues to be resolved. Patches, suggestions and new language/framework syntax are always welcome!
