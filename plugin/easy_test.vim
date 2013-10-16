@@ -37,25 +37,21 @@ def run_current_file_on_terminal():
 def run_test(level, on_terminal=False):
   import vim
 
-  def easytest_django_syntax(file_name, cls_name, def_name):
-    file_name = file_name.split('/')[-2]
-
+  def easytest_django_syntax(cls_name, def_name):
     # filter null values
     names = [nn for nn in [cls_name, def_name] if nn]
 
     if names:
-      return file_name + "." + ".".join(names)
-    return file_name
+      return "." + ".".join(names)
+    return ""
 
-  def easytest_django_nose_syntax(file_name, cls_name, def_name):
-    file_name = "/".join(file_name.split('/')[-2:])
-
+  def easytest_django_nose_syntax(cls_name, def_name):
     # filter null values
     names = [nn for nn in [cls_name, def_name] if nn]
 
     if names:
-      return file_name + "\:" + ".".join(names)
-    return file_name
+      return "\:" + ".".join(names)
+    return ""
 
   cb = vim.current.buffer
   cw = vim.current.window
@@ -68,7 +64,6 @@ def run_test(level, on_terminal=False):
   else:
       func = locals()['easytest_django_syntax']
 
-  file_name = cb.name
   vim.command("?\<def\>")
   def_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0] 
   vim.command("?\<class\>")
@@ -80,8 +75,8 @@ def run_test(level, on_terminal=False):
   if level == 'file':
     cls_name = None
 
-  command = "./manage.py test "
-  command += func(file_name, cls_name, def_name)
+  command = "./manage.py test %"
+  command += func(cls_name, def_name)
   cw.cursor = original_position
   vim.command("let @/ = ''")  # clears search
   if on_terminal:
