@@ -25,19 +25,19 @@ You need the amazing plugin [dispatch](https://github.com/tpope/vim-dispatch) fo
   - django-nose
 
 to change the default syntax for a specific language just set `let easytest_{syntax_name}_syntax = 1` in your `.vimrc` file
- 
 
 ## Quick Start
-TODO
+
+    TODO
 
 ## Mapping
 
 Currently there is no default mapping so everyone can just map it however they want. But here is a good recommendation for a default:
 
     nmap <S-t> :py run_current_test()<CR>
-    nmap <leader>t :py run_current_test(on_terminal=True)<CR>
+    nmap <leader>t :py run_current_test_on_terminal()<CR>
     nmap <C-t> :py run_current_class()<CR>
     nmap <D-t> :py run_current_file()<CR>
 
 ## Contributing
-As one can see, there're still many issues to be resolved, patches, suggestions and new language/framework syntax are always welcome! A list of open feature requests can be found [here](../../issues?labels=enhancement&state=open).
+As one can see, there're still many issues to be resolved. Patches, suggestions and new language/framework syntax are always welcome! A list of open feature requests can be found [here](../../issues?labels=enhancement&state=open).

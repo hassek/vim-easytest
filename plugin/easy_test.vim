@@ -84,9 +84,3 @@ def run_test(level, on_terminal=False):
   else:
     vim.command("Dispatch " + command)
 endpython
-
-" Common key mappings
-"nmap <S-t> :py run_current_test()<CR>
-"nmap <leader>t :py run_current_test(on_terminal=True)<CR>
-"nmap <C-t> :py run_current_class()<CR>
-"nmap <D-t> :py run_current_file()<CR>
