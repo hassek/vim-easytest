@@ -17,6 +17,7 @@ you want to run.
 ## Installation
 
 You need the amazing plugin [dispatch](https://github.com/tpope/vim-dispatch) for vim-easytest to run.
+Vim needs to be compiled with python
 
 ## Supported Syntax
 
@@ -39,5 +40,10 @@ Currently there is no default mapping so everyone can just map it however they w
     nmap <C-t> :py run_current_class()<CR>
     nmap <D-t> :py run_current_file()<CR>
 
+## Known Issues
+
+- Vim root needs to match the `./manage.py` for django/django-nose to run tests correctly
+
 ## Contributing
-As one can see, there're still many issues to be resolved. Patches, suggestions and new language/framework syntax are always welcome! A list of open feature requests can be found [here](../../issues?labels=enhancement&state=open).
+As one can see, there're still many issues to be resolved. Patches, suggestions and new language/framework syntax are always welcome!
+A list of open feature requests can be found [here](../../issues?labels=enhancement&state=open).
