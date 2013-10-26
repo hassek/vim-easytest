@@ -38,20 +38,22 @@ def run_test(level, on_terminal=False):
   import vim
 
   def easytest_django_syntax(cls_name, def_name):
+    file_name = cb.name.split('/')[-2]
+
     # filter null values
     names = [nn for nn in [cls_name, def_name] if nn]
 
     if names:
-      return "." + ".".join(names)
-    return ""
+      return file_name + "." + ".".join(names)
+    return file_name
 
   def easytest_django_nose_syntax(cls_name, def_name):
     # filter null values
     names = [nn for nn in [cls_name, def_name] if nn]
 
     if names:
-      return "\:" + ".".join(names)
-    return ""
+      return "%\:" + ".".join(names)
+    return "%"
 
   cb = vim.current.buffer
   cw = vim.current.window
@@ -75,7 +77,7 @@ def run_test(level, on_terminal=False):
   if level == 'file':
     cls_name = None
 
-  command = "./manage.py test %"
+  command = "./manage.py test "
   command += func(cls_name, def_name)
   cw.cursor = original_position
   vim.command("let @/ = ''")  # clears search
