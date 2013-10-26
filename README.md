@@ -29,10 +29,10 @@ to change the default syntax for a specific language just set `let easytest_{syn
 
 Just place your cursor inside the function, class or file you want to run your tests from and execute the script.
 
-### Place your cursor inside the function and run the script 
+### Place your cursor inside the function and run the script.
 ![Example1](assets/vim-easytest.gif?raw=true)
 
-### Or run the entire file if you want to
+### Or run the entire file if you want to.
 ![Example2](assets/vim-easytest2.gif?raw=true)
 
 ## Mapping
