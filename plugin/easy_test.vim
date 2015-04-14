@@ -44,7 +44,7 @@ def run_test(level, on_terminal=False):
     names = [nn for nn in [cls_name, def_name] if nn]
 
     if names:
-      return file_name + "." + ".".join(names)
+      return file_name + ".tests." + ".".join(names)
     return file_name
 
   def easytest_django_nose_syntax(cls_name, def_name):
