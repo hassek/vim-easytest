@@ -1,7 +1,7 @@
 " EasyTests - the genki dama to run your tests
 "
 " Author: Tomás Henríquez <tchenriquez@gmail.com>
-" Source repository: https://github.com/hassek/EasyTest 
+" Source repository: https://github.com/hassek/EasyTest
 
 " Script initialization {{{
 	if exists('g:Easy_test_loaded') || &compatible || version < 702
@@ -13,6 +13,7 @@
   " Supported syntexes
   let g:easytest_django_nose_syntax = 0
   let g:easytest_django_syntax = 0
+  let g:easytest_ruby_syntax = 0
 " }}}
 
 python << endpython
@@ -38,22 +39,35 @@ def run_test(level, on_terminal=False):
   import vim
 
   def easytest_django_syntax(cls_name, def_name):
+    base = "./manage.py test "
     file_name = cb.name.split('/')[-2]
 
     # filter null values
     names = [nn for nn in [cls_name, def_name] if nn]
 
     if names:
-      return file_name + ".tests." + ".".join(names)
-    return file_name
+      return base + file_name + ".tests." + ".".join(names)
+    return base + file_name
 
   def easytest_django_nose_syntax(cls_name, def_name):
+    base = "./manage.py test %"
     # filter null values
     names = [nn for nn in [cls_name, def_name] if nn]
 
     if names:
-      return "%\:" + ".".join(names)
-    return "%"
+      return base + "\:" + ".".join(names)
+    return base
+
+  def easytest_ruby_syntax(cls_name, def_name):
+    path_name = "/".join(cb.name.split('/')[-2:])
+    base = "ruby -I\"lib:test\" " + path_name
+
+    if cls_name:
+      base += " -t " + cls_name
+    if def_name:
+      base += " -n " + def_name
+
+    return base
 
   cb = vim.current.buffer
   cw = vim.current.window
@@ -67,9 +81,9 @@ def run_test(level, on_terminal=False):
       func = locals()['easytest_django_syntax']
 
   vim.command("?\<def\>")
-  def_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0] 
+  def_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0]
   vim.command("?\<class\>")
-  cls_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0] 
+  cls_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0]
 
   if level == 'class' or level == 'file':
     def_name = None
@@ -77,8 +91,7 @@ def run_test(level, on_terminal=False):
   if level == 'file':
     cls_name = None
 
-  command = "./manage.py test "
-  command += func(cls_name, def_name)
+  command = func(cls_name, def_name)
   cw.cursor = original_position
   vim.command("let @/ = ''")  # clears search
   if on_terminal:
