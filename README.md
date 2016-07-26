@@ -22,6 +22,8 @@ Vim needs to be compiled with python
 - Python
   - django (Default)
   - django-nose
+- Ruby
+  - ruby stand alone
 
 to change the default syntax for a specific language just set `let easytest_{syntax_name}_syntax = 1` in your `.vimrc` file
 
@@ -56,7 +58,6 @@ This are all possible functions to execute. I hope the names are self explanator
 ## Known Issues
 
 - Vim needs to be opened where the `./manage.py` file exists for django/django-nose to run tests correctly
-- Sometimes when using iTerm on MacOs X you need to run the tests twice for the tests to start running properly
 
 ## Contributing
 There are still many issues to be resolved. Patches, suggestions and new language/framework syntax are always welcome!
