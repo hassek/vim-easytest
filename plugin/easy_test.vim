@@ -40,14 +40,14 @@ def run_test(level, on_terminal=False):
 
   def easytest_django_syntax(cls_name, def_name):
     base = "./manage.py test "
-    file_name = cb.name.split('/')[-2]
+    file_path = vim.eval("@%").replace('.py', '').replace("/", '.')
 
     # filter null values
     names = [nn for nn in [cls_name, def_name] if nn]
 
     if names:
-      return base + file_name + ".tests." + ".".join(names)
-    return base + file_name
+      return base + file_path + "." + ".".join(names)
+    return base + file_path
 
   def easytest_django_nose_syntax(cls_name, def_name):
     base = "./manage.py test %"
@@ -59,7 +59,7 @@ def run_test(level, on_terminal=False):
     return base
 
   def easytest_ruby_syntax(cls_name, def_name):
-    path_name = "/".join(cb.name.split('/')[-2:])
+    path_name = vim.eval("@%")
     base = "ruby -I\"lib:test\" " + path_name
 
     if cls_name:
