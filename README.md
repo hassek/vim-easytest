@@ -22,10 +22,11 @@ Vim needs to be compiled with python
 - Python
   - django (Default)
   - django-nose
+  - pytest
 - Ruby
   - ruby stand alone
 
-to change the default syntax for a specific language just set `let easytest_{syntax_name}_syntax = 1` in your `.vimrc` file
+To change the default syntax for a specific language just set `let easytest_{syntax_name}_syntax = 1` in your `.vimrc` file
 
 ## Quick Start
 
