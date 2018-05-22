@@ -10,10 +10,11 @@
 
 	let g:Easy_test_loaded = 1
 
-  " Supported syntexes
-  let g:easytest_django_nose_syntax = 0
-  let g:easytest_django_syntax = 0
-  let g:easytest_ruby_syntax = 0
+  " Supported syntaxes
+  " let g:easytest_django_nose_syntax = 0
+  " let g:easytest_pytest_syntax = 0
+  " let g:easytest_django_syntax = 0
+  " let g:easytest_ruby_syntax = 0
 " }}}
 
 python << endpython
@@ -56,6 +57,14 @@ def run_test(level, on_terminal=False):
 
     if names:
       return base + "\:" + ".".join(names)
+    return base
+
+  def easytest_pytest_syntax(cls_name, def_name):
+    base = "pytest %"
+    names = [nn for nn in [cls_name, def_name] if nn]
+
+    if names:
+      return base + "::" + "::".join(names)
     return base
 
   def easytest_ruby_syntax(cls_name, def_name):
