@@ -91,8 +91,11 @@ def run_test(level, on_terminal=False):
 
   vim.command("?\<def\>")
   def_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0]
-  vim.command("?\<class\>")
-  cls_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0]
+  try:
+    vim.command("?\<class\>")
+    cls_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0]
+  except vim.error:
+    cls_name = None
 
   if level == 'class' or level == 'file':
     def_name = None
