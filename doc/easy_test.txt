@@ -25,14 +25,15 @@ you want to run.
   TODO
   let easytest_django_nose_syntax = 1
   let easytest_django_syntax = 0
+  let easytest_pytest_syntax = 0
 
 
 ==============================================================================
 3. Requirements                                        *EasyTest_requirements*
  
   • EasyTest runs over the amazing plugin *dispatch* created by Tim Pope
-  • vim needs to be compiled with python
-  • the plugin has been developed and tested over Vim 7.4
+  • vim needs to be compiled with python2
+  • the plugin has been developed and tested over Vim 7.4+
 
 ==============================================================================
 4. Support                                                  *EasyTest_support*
@@ -43,6 +44,9 @@ you want to run.
   • Python
     ◦ Django (standalone)
     ◦ django-nose
+    ◦ pytest
+  • Ruby
+    ◦ Ruby stand alone
 
 
 ==============================================================================
