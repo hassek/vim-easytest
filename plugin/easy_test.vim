@@ -90,10 +90,10 @@ def run_test(level, on_terminal=False):
       func = locals()['easytest_django_syntax']
 
   vim.command("?\<def\>")
-  def_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0]
+  def_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":")
   try:
     vim.command("?\<class\>")
-    cls_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0]
+    cls_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":")
   except vim.error:
     cls_name = None
 
