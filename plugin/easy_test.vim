@@ -27,6 +27,9 @@ def run_current_class():
 def run_current_file():
   run_test('file')
 
+def run_current_package():
+  run_test('package')
+
 def run_current_test_on_terminal():
   run_test('test', on_terminal=True)
 
@@ -36,12 +39,26 @@ def run_current_class_on_terminal():
 def run_current_file_on_terminal():
   run_test('file', on_terminal=True)
 
+def run_current_package_on_terminal():
+  run_test('package', on_terminal=True)
+
+def run_all_tests():
+  run_test('all')
+
+def run_all_tests_on_terminal():
+  run_test('all', on_terminal=True)
+
 def run_test(level, on_terminal=False):
   import vim
 
   def easytest_django_syntax(cls_name, def_name):
     base = "./manage.py test "
+    if level == 'all':
+      return base
+
     file_path = vim.eval("@%").replace('.py', '').replace("/", '.')
+    if level == 'package':
+      file_path = file_path.rpartition('.')[0]
 
     # filter null values
     names = [nn for nn in [cls_name, def_name] if nn]
@@ -82,15 +99,18 @@ def run_test(level, on_terminal=False):
   cw = vim.current.window
   original_position = vim.current.window.cursor
 
-  for func, value in vim.vars.items():
-    if 'easytest' in func and value == 1:
-      func = locals()[func]
+  for syntype in ["easytest_django_syntax", "easytest_django_nose_syntax", "easytest_pytest_syntax", "easytest_ruby_syntax"]:
+    if vim.vars.get(syntype) == 1:
+      func = locals()[syntype]
       break
   else:
       func = locals()['easytest_django_syntax']
 
-  vim.command("?\<def\>")
-  def_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":")
+  try:
+    vim.command("?\<def\>")
+    def_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":")
+  except vim.error:
+    def_name = None
   try:
     vim.command("?\<class\>")
     cls_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":")
@@ -102,6 +122,10 @@ def run_test(level, on_terminal=False):
 
   if level == 'file':
     cls_name = None
+
+  if level == 'package' or level == 'all':
+    cls_name = None
+    def_name = None
 
   command = func(cls_name, def_name)
   cw.cursor = original_position

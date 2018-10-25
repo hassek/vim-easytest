@@ -56,6 +56,27 @@ This are all possible functions to execute. I hope the names are self explanator
     run_current_file()
     run_current_file_on_terminal()
 
+## Tips & Tricks
+
+### different projects
+
+If you have different projects, you can use this neat vim configuration trick, put a `.vimrc` inside your project to change specific configurations, i.e.:
+```
+autocmd FileType python let easytest_django_syntax=0
+autocmd FileType python let easytest_pytest_syntax=1
+```
+
+It will override the default at `~/.vimrc` just for that project.
+
+This feature is turned off by default, so you will need to add at `~/.vimrc` this to activate it:
+
+```
+set exrc
+set secure
+```
+
+The last command is not required but is recommended.
+
 ## Known Issues
 
 - Vim needs to be opened where the `./manage.py` file exists for django/django-nose to run tests correctly
@@ -63,3 +84,8 @@ This are all possible functions to execute. I hope the names are self explanator
 ## Contributing
 There are still many issues to be resolved. Patches, suggestions and new language/framework syntax are always welcome!
 A list of open feature requests can be found [here](../../issues?labels=enhancement&state=open).
+
+### Contributors
+
+- Tomas Henriquez
+- Lie Ryan
