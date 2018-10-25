@@ -82,9 +82,9 @@ def run_test(level, on_terminal=False):
   cw = vim.current.window
   original_position = vim.current.window.cursor
 
-  for func, value in vim.vars.items():
-    if 'easytest' in func and value == 1:
-      func = locals()[func]
+  for syntype in ["easytest_django_syntax", "easytest_django_nose_syntax", "easytest_pytest_syntax", "easytest_ruby_syntax"]:
+    if vim.vars.get(syntype) == 1:
+      func = locals()[syntype]
       break
   else:
       func = locals()['easytest_django_syntax']
