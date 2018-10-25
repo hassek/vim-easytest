@@ -27,6 +27,9 @@ def run_current_class():
 def run_current_file():
   run_test('file')
 
+def run_current_package():
+  run_test('package')
+
 def run_current_test_on_terminal():
   run_test('test', on_terminal=True)
 
@@ -36,12 +39,17 @@ def run_current_class_on_terminal():
 def run_current_file_on_terminal():
   run_test('file', on_terminal=True)
 
+def run_current_package_on_terminal():
+  run_test('package', on_terminal=True)
+
 def run_test(level, on_terminal=False):
   import vim
 
   def easytest_django_syntax(cls_name, def_name):
     base = "./manage.py test "
     file_path = vim.eval("@%").replace('.py', '').replace("/", '.')
+    if level == 'package':
+      file_path = file_path.rpartition('.')[0]
 
     # filter null values
     names = [nn for nn in [cls_name, def_name] if nn]
@@ -102,6 +110,10 @@ def run_test(level, on_terminal=False):
 
   if level == 'file':
     cls_name = None
+
+  if level == 'package':
+    cls_name = None
+    def_name = None
 
   command = func(cls_name, def_name)
   cw.cursor = original_position
