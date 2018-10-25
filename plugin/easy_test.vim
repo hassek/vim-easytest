@@ -42,11 +42,20 @@ def run_current_file_on_terminal():
 def run_current_package_on_terminal():
   run_test('package', on_terminal=True)
 
+def run_all_tests():
+  run_test('all')
+
+def run_all_tests_on_terminal():
+  run_test('all', on_terminal=True)
+
 def run_test(level, on_terminal=False):
   import vim
 
   def easytest_django_syntax(cls_name, def_name):
     base = "./manage.py test "
+    if level == 'all':
+      return base
+
     file_path = vim.eval("@%").replace('.py', '').replace("/", '.')
     if level == 'package':
       file_path = file_path.rpartition('.')[0]
@@ -97,8 +106,11 @@ def run_test(level, on_terminal=False):
   else:
       func = locals()['easytest_django_syntax']
 
-  vim.command("?\<def\>")
-  def_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":")
+  try:
+    vim.command("?\<def\>")
+    def_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":")
+  except vim.error:
+    def_name = None
   try:
     vim.command("?\<class\>")
     cls_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":")
@@ -111,7 +123,7 @@ def run_test(level, on_terminal=False):
   if level == 'file':
     cls_name = None
 
-  if level == 'package':
+  if level == 'package' or level == 'all':
     cls_name = None
     def_name = None
 
