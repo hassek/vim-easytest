@@ -17,7 +17,7 @@
   " let g:easytest_ruby_syntax = 0
 " }}}
 
-python << endpython
+pythonx << endpython
 def run_current_test():
   run_test('test')
 
