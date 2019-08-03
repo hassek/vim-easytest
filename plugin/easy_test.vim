@@ -1,7 +1,7 @@
 " EasyTests - the genki dama to run your tests
 "
 " Author: Tomás Henríquez <tchenriquez@gmail.com>
-" Source repository: https://github.com/hassek/EasyTest
+" Source repository: https://github.com/hassek/vim-easytest
 
 " Script initialization {{{
 	if exists('g:Easy_test_loaded') || &compatible || version < 702
@@ -15,6 +15,7 @@
   " let g:easytest_pytest_syntax = 0
   " let g:easytest_django_syntax = 0
   " let g:easytest_ruby_syntax = 0
+  " let g:easytest_rust_syntax = 0
 " }}}
 
 pythonx << endpython
@@ -95,11 +96,28 @@ def run_test(level, on_terminal=False):
 
     return base
 
+  def easytest_rust_syntax(cls_name, def_name):
+    base = "cargo test "
+    if level == 'all':
+      return base
+
+    file_path = vim.eval("@%").replace('.rs', '').replace('src/', '')
+    if level == 'package':
+      file_path = file_path.rpartition('::')[0]
+
+    # filter null values
+    names = [nn for nn in [cls_name, def_name] if nn]
+
+    if names:
+      return base + file_path + "::" + "::".join(names) + " -- --nocapture"
+    return base + file_path + " -- --nocapture --nocapture"
+
+
   cb = vim.current.buffer
   cw = vim.current.window
   original_position = vim.current.window.cursor
 
-  for syntype in ["easytest_django_syntax", "easytest_django_nose_syntax", "easytest_pytest_syntax", "easytest_ruby_syntax"]:
+  for syntype in ["easytest_django_syntax", "easytest_django_nose_syntax", "easytest_pytest_syntax", "easytest_ruby_syntax", "easytest_rust_syntax"]:
     if vim.vars.get(syntype) == 1:
       func = locals()[syntype]
       break
@@ -107,13 +125,13 @@ def run_test(level, on_terminal=False):
       func = locals()['easytest_django_syntax']
 
   try:
-    vim.command("?\<def\>")
-    def_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":")
+    vim.command("?\<def\>\|\<fn\>")
+    def_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":").strip("{").strip()
   except vim.error:
     def_name = None
   try:
-    vim.command("?\<class\>")
-    cls_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":")
+    vim.command("?\<class\>\|\<mod\>")
+    cls_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":").strip("{").strip()
   except vim.error:
     cls_name = None
 
@@ -129,6 +147,7 @@ def run_test(level, on_terminal=False):
 
   command = func(cls_name, def_name)
   cw.cursor = original_position
+  print(f"command {command}")
   vim.command("let @/ = ''")  # clears search
   if on_terminal:
     vim.command('Start ' + command)
