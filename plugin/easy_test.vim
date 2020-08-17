@@ -138,7 +138,7 @@ def run_test(level, on_terminal=False):
 
   try:
     vim.command("?\<def\>\|\<fn\>\|\<func\>")
-    def_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":").strip("{").strip()
+    def_name = cb[vim.current.window.cursor[0] - 1].replace('async ', '').split()[1].split('(')[0].strip(":").strip("{").strip()
   except vim.error:
     def_name = None
   try:
