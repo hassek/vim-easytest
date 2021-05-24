@@ -118,7 +118,7 @@ def run_test(level, on_terminal=False):
     if level == 'all':
       return base + "./..."
 
-    file_path = "./" + "/".join(vim.eval("@%").split('/')[:1])
+    file_path = "./" + "/".join(vim.eval("@%").split('/')[:-1])
     if level in ('package', 'class'):
       return base + file_path
 
