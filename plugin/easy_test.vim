@@ -122,7 +122,7 @@ def run_test(level, on_terminal=False):
     if level in ('package', 'class'):
       return base + file_path
 
-    return base + file_path + " -run " + def_name
+    return base + file_path + " -run " + def_name + "$"
 
 
   cb = vim.current.buffer
@@ -162,7 +162,7 @@ def run_test(level, on_terminal=False):
   print(f"command {command}")
   vim.command("let @/ = ''")  # clears search
   if on_terminal:
-    vim.command('Start ' + command)
+    vim.command('Dispatch ' + command)
   else:
-    vim.command("Dispatch " + command)
+    vim.command("Start " + command)
 endpython
