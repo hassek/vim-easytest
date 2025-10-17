@@ -75,7 +75,7 @@ def run_test(level, on_terminal=False):
     names = [nn for nn in [cls_name, def_name] if nn]
 
     if names:
-      return base + "\:" + ".".join(names)
+      return base + "\\:" + ".".join(names)
     return base
 
   def easytest_pytest_syntax(cls_name, def_name):
@@ -137,12 +137,12 @@ def run_test(level, on_terminal=False):
       func = locals()['easytest_django_syntax']
 
   try:
-    vim.command("?\<def\>\|\<fn\>\|\<func\>")
+    vim.command(r"?\<def\>\|\<fn\>\|\<func\>")
     def_name = cb[vim.current.window.cursor[0] - 1].replace('async ', '').split()[1].split('(')[0].strip(":").strip("{").strip()
   except vim.error:
     def_name = None
   try:
-    vim.command("?\<class\>\|\<mod\>")
+    vim.command(r"?\<class\>\|\<mod\>")
     cls_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":").strip("{").strip()
   except vim.error:
     cls_name = None
