@@ -17,6 +17,9 @@
   " let g:easytest_ruby_syntax = 0
   " let g:easytest_rust_syntax = 0
   " let g:easytest_go_syntax = 0
+  "
+  " Go debugger support (requires delve: https://github.com/go-delve/delve)
+  " let g:easytest_go_use_dlv = 1
 " }}}
 
 pythonx << endpython
@@ -114,15 +117,29 @@ def run_test(level, on_terminal=False):
     return base + file_path + " -- --nocapture --nocapture"
 
   def easytest_go_syntax(cls_name, def_name):
-    base = "go test "
-    if level == 'all':
-      return base + "./..."
+    use_dlv = vim.vars.get('easytest_go_use_dlv') == 1
 
-    file_path = "./" + "/".join(vim.eval("@%").split('/')[:-1])
-    if level in ('package', 'class'):
-      return base + file_path
+    if use_dlv:
+      base = "dlv test "
+      if level == 'all':
+        return base + "./..."
 
-    return base + file_path + " -run " + def_name + "$"
+      file_path = "./" + "/".join(vim.eval("@%").split('/')[:-1])
+      if level in ('package', 'class'):
+        return base + file_path
+
+      # dlv requires -- separator and -test.run instead of -run
+      return base + file_path + " -- -test.run " + def_name + "$"
+    else:
+      base = "go test "
+      if level == 'all':
+        return base + "./..."
+
+      file_path = "./" + "/".join(vim.eval("@%").split('/')[:-1])
+      if level in ('package', 'class'):
+        return base + file_path
+
+      return base + file_path + " -run " + def_name + "$"
 
 
   cb = vim.current.buffer
@@ -136,11 +153,38 @@ def run_test(level, on_terminal=False):
   else:
       func = locals()['easytest_django_syntax']
 
+  def_name = None
   try:
-    vim.command(r"?\<def\>\|\<fn\>\|\<func\>")
-    def_name = cb[vim.current.window.cursor[0] - 1].replace('async ', '').split()[1].split('(')[0].strip(":").strip("{").strip()
+    # Get the indentation level at the cursor position
+    cursor_line = cb[original_position[0] - 1]
+    cursor_indent = len(cursor_line) - len(cursor_line.lstrip())
+
+    # Keep searching backward for a function at the same or lower indentation level
+    max_attempts = 20  # Prevent infinite loops
+    for attempt in range(max_attempts):
+      vim.command(r"?\<def\>\|\<fn\>\|\<func\>")
+      current_line_num = vim.current.window.cursor[0]
+      line = cb[current_line_num - 1]
+      line_indent = len(line) - len(line.lstrip())
+
+      # Only consider functions at the same or lower indentation than cursor
+      if line_indent <= cursor_indent:
+        parts = line.replace('async ', '').split()
+
+        # Check if we have at least 2 parts (keyword + name)
+        if len(parts) >= 2:
+          potential_name = parts[1].split('(')[0].strip(":").strip("{").strip()
+
+          # Check if it's a valid function name (not empty and not punctuation)
+          if potential_name and potential_name not in ['(', '{', ')', '}']:
+            def_name = potential_name
+            break
+
+      # If we're already at line 1, stop searching
+      if current_line_num == 1:
+        break
   except vim.error:
-    def_name = None
+    pass
   try:
     vim.command(r"?\<class\>\|\<mod\>")
     cls_name = cb[vim.current.window.cursor[0] - 1].split()[1].split('(')[0].strip(":").strip("{").strip()
